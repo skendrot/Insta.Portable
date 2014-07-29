@@ -84,7 +84,7 @@ namespace Insta.Portable
         {
             const string url = BaseUrl + "/1.1/account/verify_credentials";
 
-            var response = await GetResponse(url, new List<KeyValuePair<string, string>>());
+            var response = await GetResponse(url, new List<KeyValuePair<string, string>>(), cancellationToken);
             if (!response.IsSuccessStatusCode) return null;
 
             var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
