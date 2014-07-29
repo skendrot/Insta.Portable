@@ -1,6 +1,7 @@
 ﻿using AsyncOAuth;
 using Insta.Portable.Extensions;
 using Insta.Portable.Models;
+using Newtonsoft.Json;
 using PCLCrypto;
 using System.Collections.Generic;
 using System.Linq;
@@ -102,11 +103,11 @@ namespace Insta.Portable
 
             if (json.Contains("error_code"))
             {
-                var error = await json.DeserialiseAsync<List<Error>>();
+                var error = JsonConvert.DeserializeObject<List<Error>>(json);
                 return new InstaResponse<TReturnType> { Error = error.FirstOrDefault() };
             }
 
-            var response = await json.DeserialiseAsync<TReturnType>();
+            var response = JsonConvert.DeserializeObject<TReturnType>(json);
             return new InstaResponse<TReturnType> { Response = response };
         }
     }
