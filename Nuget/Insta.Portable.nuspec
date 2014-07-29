@@ -2,10 +2,22 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
     <metadata>
         <id>Insta.Portable</id>
-        <version>0.1.0.0-beta</version>
+        <version>0.1.0.1-beta</version>
+        <title>Instapaper Portable Class Library</title>
         <authors>Shawn Kendrot</authors>
+        <projectUrl>https://github.com/skendrot/Insta.Portable</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>My package description.</description>
+        <description>Portable class library for the Instapaper service. This SDK only allows for the "full API" rather than the "simple API"</description>
+        <tags>instapaper, readability, pocket, read later</tags>
+        <dependencies>
+            <dependency id="AsyncOAuth" version="0.8.4" />
+            <dependency id="Newtonsoft.Json" version="6.0.3" />
+            <dependency id="Microsoft.Net.Http" version="2.2.22" />
+            <dependency id="PCLCrypto" version="0.5.0.14108" />
+            <dependency id="Microsoft.Bcl.Async" version="1.0.168" />
+        </dependencies>
     </metadata>
-    <files />
+    <files>
+        <file src="..\Source\Insta.Portable\bin\Release\Insta.Portable.dll" target="lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\Insta.Portable.dll" />
+    </files>
 </package>
