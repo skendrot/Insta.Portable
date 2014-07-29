@@ -89,6 +89,20 @@ namespace Insta.Portable
             return await GetBookmark(url, bookmarkId);
         }
 
+        public async Task<Bookmark> ArchiveBookmark(int bookmarkId)
+        {
+            const string url = BookmarksBaseUrl + "/archive";
+
+            return await GetBookmark(url, bookmarkId);
+        }
+
+        public async Task<Bookmark> UnarchiveBookmark(int bookmarkId)
+        {
+            const string url = BookmarksBaseUrl + "/unarchive";
+
+            return await GetBookmark(url, bookmarkId);
+        }
+
         private async Task<Bookmark> GetBookmark(string url, int bookmarkId, IDictionary<string, string> additionalParameters = null)
         {
             var parameters = new Dictionary<string, string>
