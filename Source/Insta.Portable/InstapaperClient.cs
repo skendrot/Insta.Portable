@@ -80,17 +80,34 @@ namespace Insta.Portable
             return AccessToken;
         }
 
-        public async Task<User> VerifyUserAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<InstaResponse<User>> VerifyUserAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             const string url = BaseUrl + "/1.1/account/verify_credentials";
 
             var response = await GetResponse(url, new List<KeyValuePair<string, string>>(), cancellationToken);
-            if (!response.IsSuccessStatusCode) return null;
 
             var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            var users = await json.DeserialiseAsync<List<User>>();
+            var result = await ProcessResponse<List<User>>(json);
+            return result.Error == null
+                ? new InstaResponse<User> { Response = result.Response.FirstOrDefault() }
+                : new InstaResponse<User> { Error = result.Error };
+        }
 
-            return users.FirstOrDefault();
+        private static async Task<InstaResponse<TReturnType>> ProcessResponse<TReturnType>(string json) where TReturnType : class
+        {
+            if (string.IsNullOrEmpty(json))
+            {
+                return new InstaResponse<TReturnType> { Error = new Error { ErrorCode = 0000, Message = "API response contained no information", Type = "error" } };
+            }
+
+            if (json.Contains("error_code"))
+            {
+                var error = await json.DeserialiseAsync<List<Error>>();
+                return new InstaResponse<TReturnType> { Error = error.FirstOrDefault() };
+            }
+
+            var response = await json.DeserialiseAsync<TReturnType>();
+            return new InstaResponse<TReturnType> { Response = response };
         }
     }
 }
