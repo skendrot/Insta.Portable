@@ -49,7 +49,7 @@ namespace Insta.Portable
             return JsonConvert.DeserializeObject<Bookmark>(json);
         }
 
-        public async Task<Bookmark> UpdateReadProgress(int bookmarkId, float readPercentage)
+        public Task<Bookmark> UpdateReadProgress(int bookmarkId, float readPercentage)
         {
             const string url = BookmarksBaseUrl + "/update_read_progress";
 
@@ -61,7 +61,7 @@ namespace Insta.Portable
                 {"progress_timestamp", timestamp.ToString()}
             };
 
-            return await GetBookmark(url, bookmarkId, parameters);
+            return GetBookmark(url, bookmarkId, parameters);
         }
 
         public async Task<bool> DeleteBookmark(int bookmarkId)
@@ -76,31 +76,31 @@ namespace Insta.Portable
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<Bookmark> StarBookmark(int bookmarkId)
+        public Task<Bookmark> StarBookmark(int bookmarkId)
         {
             const string url = BookmarksBaseUrl + "/star";
 
-            return await GetBookmark(url, bookmarkId);
+            return GetBookmark(url, bookmarkId);
         }
-        public async Task<Bookmark> UnstarBookmark(int bookmarkId)
+        public Task<Bookmark> UnstarBookmark(int bookmarkId)
         {
             const string url = BookmarksBaseUrl + "/unstar";
 
-            return await GetBookmark(url, bookmarkId);
+            return GetBookmark(url, bookmarkId);
         }
 
-        public async Task<Bookmark> ArchiveBookmark(int bookmarkId)
+        public Task<Bookmark> ArchiveBookmark(int bookmarkId)
         {
             const string url = BookmarksBaseUrl + "/archive";
 
-            return await GetBookmark(url, bookmarkId);
+            return GetBookmark(url, bookmarkId);
         }
 
-        public async Task<Bookmark> UnarchiveBookmark(int bookmarkId)
+        public Task<Bookmark> UnarchiveBookmark(int bookmarkId)
         {
             const string url = BookmarksBaseUrl + "/unarchive";
 
-            return await GetBookmark(url, bookmarkId);
+            return GetBookmark(url, bookmarkId);
         }
 
         private async Task<Bookmark> GetBookmark(string url, int bookmarkId, IDictionary<string, string> additionalParameters = null)
