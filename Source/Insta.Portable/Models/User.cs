@@ -20,6 +20,6 @@ namespace Insta.Portable.Models
         // TODO: bool converter
         [JsonProperty("subscription_is_active")]
         [JsonConverter(typeof(BoolConverter))]
-        public string SubscriptionIsActive { get; set; }
+        public bool SubscriptionIsActive { get; set; }
     }
 }
