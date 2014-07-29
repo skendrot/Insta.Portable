@@ -62,23 +62,47 @@ namespace Insta.Portable
                 {"progress_timestamp", timestamp.ToString()}
             };
 
-            var response = await GetResponse(url, parameters).ConfigureAwait(false);
-            var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            return JsonConvert.DeserializeObject<Bookmark>(json);
+            return await GetBookmark(url, parameters);
         }
 
-        public async Task<bool> DeleteBookmark(string bookmarkId)
+        public async Task<bool> DeleteBookmark(int bookmarkId)
         {
-            if (bookmarkId == null) throw new ArgumentNullException("bookmarkId");
-
             const string url = BookmarksBaseUrl + "/delete";
 
             var parameters = new Dictionary<string, string>
             {
-                {"bookmark_id", bookmarkId}
+                {"bookmark_id", bookmarkId.ToString()}
             };
             var response = await GetResponse(url, parameters).ConfigureAwait(false);
             return response.IsSuccessStatusCode;
+        }
+
+        public async Task<Bookmark> StarBookmark(int bookmarkId)
+        {
+            const string url = BookmarksBaseUrl + "/star";
+
+            var parameters = new Dictionary<string, string>
+            {
+                {"bookmark_id", bookmarkId.ToString()}
+            };
+            return await GetBookmark(url, parameters);
+        }
+        public async Task<Bookmark> UnstarBookmark(int bookmarkId)
+        {
+            const string url = BookmarksBaseUrl + "/unstar";
+
+            var parameters = new Dictionary<string, string>
+            {
+                {"bookmark_id", bookmarkId.ToString()}
+            };
+            return await GetBookmark(url, parameters);
+        }
+
+        private async Task<Bookmark> GetBookmark(string url, Dictionary<string, string> parameters)
+        {
+            var response = await GetResponse(url, parameters).ConfigureAwait(false);
+            var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            return JsonConvert.DeserializeObject<Bookmark>(json);
         }
 
         private Task<HttpResponseMessage> GetResponse(string url, IEnumerable<KeyValuePair<string, string>> parameters)
