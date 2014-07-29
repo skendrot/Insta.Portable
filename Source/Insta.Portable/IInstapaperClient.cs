@@ -11,6 +11,7 @@ namespace Insta.Portable
         Task<AccessToken> GetAuthTokenAsync(string userName, string password, CancellationToken cancellationToken = default(CancellationToken));
 
         Task<BookmarksResponse> GetBookmarks();
+        Task<string> GetBookmarkContent(int bookmarkId);
         Task<Bookmark> AddBookmark(string bookmarkUrl, string title = null, string description = null, string folderId = null);
         Task<Bookmark> UpdateReadProgress(int bookmarkId, float readPercentage);
         Task<bool> DeleteBookmark(int bookmarkId);

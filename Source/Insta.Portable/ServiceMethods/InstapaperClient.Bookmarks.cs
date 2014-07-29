@@ -25,6 +25,18 @@ namespace Insta.Portable
             return JsonConvert.DeserializeObject<BookmarksResponse>(json);
         }
 
+        public async Task<string> GetBookmarkContent(int bookmarkId)
+        {
+            string url = BookmarksBaseUrl + "/get_text";
+
+            var parameters = new Dictionary<string, string>
+            {
+                {"bookmark_id", bookmarkId.ToString()}
+            };
+            var response = await GetResponse(url, parameters).ConfigureAwait(false);
+            return await response.Content.ReadAsStringAsync();
+        }
+
         public async Task<Bookmark> AddBookmark(string bookmarkUrl, string title = null, string description = null, string folderId = null)
         {
             if (bookmarkUrl == null) throw new ArgumentNullException("bookmarkUrl");
