@@ -8,7 +8,7 @@ namespace Insta.Portable
 {
     public interface IInstapaperClient
     {
-        Task<AccessToken> GetAuthTokenAsync(string userName, string password, CancellationToken cancellationToken = default(CancellationToken));
+        Task<AccessToken> GetAuthTokenAsync(string emailAddress, string password, CancellationToken cancellationToken = default(CancellationToken));
         Task<User> VerifyUserAsync(CancellationToken cancellationToken = default(CancellationToken));
         Task<BookmarksResponse> GetBookmarks();
         Task<string> GetBookmarkContent(int bookmarkId);

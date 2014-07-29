@@ -40,11 +40,16 @@ namespace Insta.Portable
         {
             _consumerKey = consumerKey;
             _consumerSecret = consumerSecret;
+
+            if (!string.IsNullOrEmpty(oauthToken) && !string.IsNullOrEmpty(oauthSecret))
+            {
+                AccessToken = new AccessToken(oauthToken, oauthSecret);
+            }
         }
 
         public AccessToken AccessToken { get; set; }
 
-        public async Task<AccessToken> GetAuthTokenAsync(string userName, string password, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<AccessToken> GetAuthTokenAsync(string emailAddress, string password, CancellationToken cancellationToken = default(CancellationToken))
         {
             //
             // Acquire an access token
@@ -54,7 +59,7 @@ namespace Insta.Portable
 
             var parameters = new Dictionary<string, string>
             {
-                { "x_auth_username", userName },
+                { "x_auth_username", emailAddress },
                 {"x_auth_password", password},
                 {"x_auth_mode","client_auth"}
             };
