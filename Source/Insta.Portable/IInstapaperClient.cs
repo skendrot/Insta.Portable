@@ -14,7 +14,10 @@ namespace Insta.Portable
         Task<Bookmark> AddBookmark(string bookmarkUrl, string title = null, string description = null, string folderId = null);
         Task<Bookmark> UpdateReadProgress(int bookmarkId, float readPercentage);
         Task<bool> DeleteBookmark(string bookmarkId);
-        
+        Task<Bookmark> StarBookmark(int bookmarkId);
+        Task<Bookmark> UnstarBookmark(int bookmarkId);
+        Task<Bookmark> ArchiveBookmark(int bookmarkId);
+        Task<Bookmark> UnarchiveBookmark(int bookmarkId);
         Task<IEnumerable<Folder>> GetFolders();
         Task<Folder> AddFolder(string title);
         Task<bool> DeleteFolder(string folderId);
