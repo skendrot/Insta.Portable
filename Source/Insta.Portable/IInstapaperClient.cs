@@ -9,7 +9,7 @@ namespace Insta.Portable
     public interface IInstapaperClient
     {
         Task<AccessToken> GetAuthTokenAsync(string userName, string password, CancellationToken cancellationToken = default(CancellationToken));
-
+        Task<User> VerifyUserAsync(CancellationToken cancellationToken = default(CancellationToken));
         Task<BookmarksResponse> GetBookmarks();
         Task<string> GetBookmarkContent(int bookmarkId);
         Task<Bookmark> AddBookmark(string bookmarkUrl, string title = null, string description = null, string folderId = null);

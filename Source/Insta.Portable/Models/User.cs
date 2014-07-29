@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Insta.Portable.Converters;
 using Newtonsoft.Json;
 
 namespace Insta.Portable.Models
@@ -18,6 +19,7 @@ namespace Insta.Portable.Models
 
         // TODO: bool converter
         [JsonProperty("subscription_is_active")]
+        [JsonConverter(typeof(BoolConverter))]
         public string SubscriptionIsActive { get; set; }
     }
 }

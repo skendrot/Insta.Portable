@@ -1,6 +1,6 @@
 ﻿using AsyncOAuth;
+using Insta.Portable.Extensions;
 using Insta.Portable.Models;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -22,7 +22,7 @@ namespace Insta.Portable
             if (response.IsSuccessStatusCode == false) return new BookmarksResponse();
 
             var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            return JsonConvert.DeserializeObject<BookmarksResponse>(json);
+            return await json.DeserialiseAsync<BookmarksResponse>();
         }
 
         public async Task<string> GetBookmarkContent(int bookmarkId)
@@ -58,7 +58,7 @@ namespace Insta.Portable
             }
             var response = await GetResponse(url, parameters).ConfigureAwait(false);
             var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            return JsonConvert.DeserializeObject<Bookmark>(json);
+            return await json.DeserialiseAsync<Bookmark>();
         }
 
         public Task<Bookmark> UpdateReadProgress(int bookmarkId, float readPercentage)
@@ -131,7 +131,7 @@ namespace Insta.Portable
 
             var response = await GetResponse(url, parameters).ConfigureAwait(false);
             var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            return JsonConvert.DeserializeObject<Bookmark>(json);
+            return await json.DeserialiseAsync<Bookmark>();
         }
 
         private Task<HttpResponseMessage> GetResponse(string url, IEnumerable<KeyValuePair<string, string>> parameters)

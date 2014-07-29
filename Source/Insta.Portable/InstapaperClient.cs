@@ -1,4 +1,6 @@
 ﻿using AsyncOAuth;
+using Insta.Portable.Extensions;
+using Insta.Portable.Models;
 using PCLCrypto;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,6 +73,19 @@ namespace Insta.Portable
             var splitted = tokenBase.Split('&').Select(s => s.Split('=')).ToLookup(xs => xs[0], xs => xs[1]);
             AccessToken = new AccessToken(splitted["oauth_token"].First(), splitted["oauth_token_secret"].First());
             return AccessToken;
+        }
+
+        public async Task<User> VerifyUserAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            const string url = BaseUrl + "/1.1/account/verify_credentials";
+
+            var response = await GetResponse(url, new List<KeyValuePair<string, string>>());
+            if (!response.IsSuccessStatusCode) return null;
+
+            var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var users = await json.DeserialiseAsync<List<User>>();
+
+            return users.FirstOrDefault();
         }
     }
 }
