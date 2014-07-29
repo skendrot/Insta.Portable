@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
+using PropertyChanged;
 
 namespace Insta.Portable.Models
 {
+    [ImplementPropertyChanged]
     public class Bookmark
     {
         [JsonProperty("bookmark_id")]
