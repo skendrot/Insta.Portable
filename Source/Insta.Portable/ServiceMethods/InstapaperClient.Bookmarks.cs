@@ -12,7 +12,7 @@ namespace Insta.Portable
     {
         private const string BookmarksBaseUrl = BaseUrl + "/1.1/bookmarks";
 
-        public async Task<BookmarksResponse> GetBookmarks()
+        public async Task<BookmarksResponse> GetBookmarksAsync()
         {
             const string url = BookmarksBaseUrl + "/list";
 
@@ -25,7 +25,7 @@ namespace Insta.Portable
             return await json.DeserialiseAsync<BookmarksResponse>();
         }
 
-        public async Task<string> GetBookmarkContent(int bookmarkId)
+        public async Task<string> GetBookmarkContentAsync(int bookmarkId)
         {
             string url = BookmarksBaseUrl + "/get_text";
 
@@ -37,7 +37,7 @@ namespace Insta.Portable
             return await response.Content.ReadAsStringAsync();
         }
 
-        public async Task<Bookmark> AddBookmark(string bookmarkUrl, string title = null, string description = null, string folderId = null)
+        public async Task<Bookmark> AddBookmarkAsync(string bookmarkUrl, string title = null, string description = null, string folderId = null)
         {
             if (bookmarkUrl == null) throw new ArgumentNullException("bookmarkUrl");
 
@@ -61,7 +61,7 @@ namespace Insta.Portable
             return await json.DeserialiseAsync<Bookmark>();
         }
 
-        public Task<Bookmark> UpdateReadProgress(int bookmarkId, float readPercentage)
+        public Task<Bookmark> UpdateReadProgressAsync(int bookmarkId, float readPercentage)
         {
             const string url = BookmarksBaseUrl + "/update_read_progress";
 
@@ -73,10 +73,10 @@ namespace Insta.Portable
                 {"progress_timestamp", timestamp.ToString()}
             };
 
-            return GetBookmark(url, bookmarkId, parameters);
+            return GetBookmarkAsync(url, bookmarkId, parameters);
         }
 
-        public async Task<bool> DeleteBookmark(int bookmarkId)
+        public async Task<bool> DeleteBookmarkAsync(int bookmarkId)
         {
             const string url = BookmarksBaseUrl + "/delete";
 
@@ -88,34 +88,34 @@ namespace Insta.Portable
             return response.IsSuccessStatusCode;
         }
 
-        public Task<Bookmark> StarBookmark(int bookmarkId)
+        public Task<Bookmark> StarBookmarkAsync(int bookmarkId)
         {
             const string url = BookmarksBaseUrl + "/star";
 
-            return GetBookmark(url, bookmarkId);
+            return GetBookmarkAsync(url, bookmarkId);
         }
-        public Task<Bookmark> UnstarBookmark(int bookmarkId)
+        public Task<Bookmark> UnstarBookmarkAsync(int bookmarkId)
         {
             const string url = BookmarksBaseUrl + "/unstar";
 
-            return GetBookmark(url, bookmarkId);
+            return GetBookmarkAsync(url, bookmarkId);
         }
 
-        public Task<Bookmark> ArchiveBookmark(int bookmarkId)
+        public Task<Bookmark> ArchiveBookmarkAsync(int bookmarkId)
         {
             const string url = BookmarksBaseUrl + "/archive";
 
-            return GetBookmark(url, bookmarkId);
+            return GetBookmarkAsync(url, bookmarkId);
         }
 
-        public Task<Bookmark> UnarchiveBookmark(int bookmarkId)
+        public Task<Bookmark> UnarchiveBookmarkAsync(int bookmarkId)
         {
             const string url = BookmarksBaseUrl + "/unarchive";
 
-            return GetBookmark(url, bookmarkId);
+            return GetBookmarkAsync(url, bookmarkId);
         }
 
-        private async Task<Bookmark> GetBookmark(string url, int bookmarkId, IDictionary<string, string> additionalParameters = null)
+        private async Task<Bookmark> GetBookmarkAsync(string url, int bookmarkId, IDictionary<string, string> additionalParameters = null)
         {
             var parameters = new Dictionary<string, string>
             {

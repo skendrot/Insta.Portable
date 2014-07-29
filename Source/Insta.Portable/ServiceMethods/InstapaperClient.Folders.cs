@@ -10,7 +10,7 @@ namespace Insta.Portable
     {
         private const string FoldersUrl = BaseUrl + "/1.1/folders";
 
-        public async Task<IEnumerable<Folder>> GetFolders()
+        public async Task<IEnumerable<Folder>> GetFoldersAsync()
         {
             const string url = FoldersUrl + "/list";
 
@@ -21,7 +21,7 @@ namespace Insta.Portable
             return JsonConvert.DeserializeObject<IEnumerable<Folder>>(json);
         }
 
-        public async Task<Folder> AddFolder(string title)
+        public async Task<Folder> AddFolderAsync(string title)
         {
             if (title == null) throw new ArgumentNullException("title");
 
@@ -39,7 +39,7 @@ namespace Insta.Portable
             return JsonConvert.DeserializeObject<Folder>(json);
         }
 
-        public async Task<bool> DeleteFolder(string folderId)
+        public async Task<bool> DeleteFolderAsync(string folderId)
         {
             if (folderId == null) throw new ArgumentNullException("folderId");
 
