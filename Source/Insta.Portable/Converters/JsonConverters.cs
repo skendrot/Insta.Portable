@@ -1,4 +1,5 @@
 ﻿using System;
+using Insta.Portable.Extensions;
 using Newtonsoft.Json;
 
 namespace Insta.Portable.Converters
@@ -18,6 +19,26 @@ namespace Insta.Portable.Converters
         public override bool CanConvert(Type objectType)
         {
             return objectType == typeof(bool);
+        }
+    }
+
+    public class EpochDateTimeConverter : JsonConverter
+    {
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            var epoch = ((DateTime) value).ToEpoch();
+            writer.WriteValue(epoch);
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            DateTime date = ((float)reader.Value).FromEpoch();
+            return date;
+        }
+
+        public override bool CanConvert(Type objectType)
+        {
+            return objectType == typeof (DateTime);
         }
     }
 }

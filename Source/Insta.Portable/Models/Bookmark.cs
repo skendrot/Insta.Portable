@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Insta.Portable.Converters;
 using Newtonsoft.Json;
 using PropertyChanged;
 
@@ -20,10 +21,11 @@ namespace Insta.Portable.Models
         [JsonProperty("private_source")]
         public string PrivateSource { get; set; }
 
-        // TODO: time converter
         [JsonProperty("progress_timestamp")]
-        public int ProgressTimestamp { get; set; }
-        public int Time { get; set; }
+        [JsonConverter(typeof(EpochDateTimeConverter))]
+        public float ProgressTimestamp { get; set; }
+        [JsonConverter(typeof(EpochDateTimeConverter))]
+        public float Time { get; set; }
         public double Progress { get; set; }
         
         // TODO: bool converter

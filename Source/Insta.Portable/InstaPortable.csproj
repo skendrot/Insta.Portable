@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Converters\JsonConverters.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\SerialisationExtensions.cs" />
     <Compile Include="IInstapaperClient.cs" />
     <Compile Include="InstapaperClient.cs" />
