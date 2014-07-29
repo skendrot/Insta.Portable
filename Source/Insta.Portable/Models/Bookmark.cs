@@ -1,9 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using System.Diagnostics;
+using Newtonsoft.Json;
 using PropertyChanged;
 
 namespace Insta.Portable.Models
 {
     [ImplementPropertyChanged]
+    [DebuggerDisplay("Id: {Id}, Title: {Title}")]
     public class Bookmark
     {
         [JsonProperty("bookmark_id")]
