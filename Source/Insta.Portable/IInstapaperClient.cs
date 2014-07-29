@@ -22,5 +22,6 @@ namespace Insta.Portable
         Task<IEnumerable<Folder>> GetFolders();
         Task<Folder> AddFolder(string title);
         Task<bool> DeleteFolder(string folderId);
+        AccessToken AccessToken { get; set; }
     }
 }
