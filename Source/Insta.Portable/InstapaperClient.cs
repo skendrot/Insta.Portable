@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Insta.Portable
 {
-    public partial class InstapaperClient
+    public partial class InstapaperClient : IInstapaperClient
     {
         private readonly string _consumerKey;
         private readonly string _consumerSecret;
@@ -45,7 +45,7 @@ namespace Insta.Portable
         public async Task<AccessToken> GetAuthTokenAsync(string userName, string password, CancellationToken cancellationToken = default(CancellationToken))
         {
             //
-            // Acquiring a request token
+            // Acquire an access token
             //
 
             const string authUrl = AuthUrl + "/access_token";
@@ -72,7 +72,5 @@ namespace Insta.Portable
             AccessToken = new AccessToken(splitted["oauth_token"].First(), splitted["oauth_token_secret"].First());
             return AccessToken;
         }
-
-
     }
 }
