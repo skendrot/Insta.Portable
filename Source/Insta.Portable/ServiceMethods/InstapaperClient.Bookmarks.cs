@@ -57,12 +57,11 @@ namespace Insta.Portable
             var timestamp = DateTime.UtcNow.Ticks - epoch.Ticks;
             var parameters = new Dictionary<string, string>
             {
-                {"bookmark_id", bookmarkId.ToString()},
                 {"progress", readPercentage.ToString()},
                 {"progress_timestamp", timestamp.ToString()}
             };
 
-            return await GetBookmark(url, parameters);
+            return await GetBookmark(url, bookmarkId, parameters);
         }
 
         public async Task<bool> DeleteBookmark(int bookmarkId)
@@ -81,25 +80,29 @@ namespace Insta.Portable
         {
             const string url = BookmarksBaseUrl + "/star";
 
-            var parameters = new Dictionary<string, string>
-            {
-                {"bookmark_id", bookmarkId.ToString()}
-            };
-            return await GetBookmark(url, parameters);
+            return await GetBookmark(url, bookmarkId);
         }
         public async Task<Bookmark> UnstarBookmark(int bookmarkId)
         {
             const string url = BookmarksBaseUrl + "/unstar";
 
+            return await GetBookmark(url, bookmarkId);
+        }
+
+        private async Task<Bookmark> GetBookmark(string url, int bookmarkId, IDictionary<string, string> additionalParameters = null)
+        {
             var parameters = new Dictionary<string, string>
             {
                 {"bookmark_id", bookmarkId.ToString()}
             };
-            return await GetBookmark(url, parameters);
-        }
+            if (additionalParameters != null)
+            {
+                foreach (var additionalParameter in additionalParameters)
+                {
+                    parameters.Add(additionalParameter.Key, additionalParameter.Value);
+                }
+            }
 
-        private async Task<Bookmark> GetBookmark(string url, Dictionary<string, string> parameters)
-        {
             var response = await GetResponse(url, parameters).ConfigureAwait(false);
             var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             return JsonConvert.DeserializeObject<Bookmark>(json);
@@ -109,7 +112,7 @@ namespace Insta.Portable
         {
             var client = new HttpClient(new OAuthMessageHandler(_consumerKey, _consumerSecret, AccessToken));
             var message = new HttpRequestMessage(HttpMethod.Post, url);
-            message.Content = new FormUrlEncodedContent(parameters ?? new Dictionary<string,string>());
+            message.Content = new FormUrlEncodedContent(parameters ?? new Dictionary<string, string>());
             return client.SendAsync(message);
         }
     }
