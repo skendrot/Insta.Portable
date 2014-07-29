@@ -13,7 +13,7 @@ namespace Insta.Portable
         Task<BookmarksResponse> GetBookmarks();
         Task<Bookmark> AddBookmark(string bookmarkUrl, string title = null, string description = null, string folderId = null);
         Task<Bookmark> UpdateReadProgress(int bookmarkId, float readPercentage);
-        Task<bool> DeleteBookmark(string bookmarkId);
+        Task<bool> DeleteBookmark(int bookmarkId);
         Task<Bookmark> StarBookmark(int bookmarkId);
         Task<Bookmark> UnstarBookmark(int bookmarkId);
         Task<Bookmark> ArchiveBookmark(int bookmarkId);
