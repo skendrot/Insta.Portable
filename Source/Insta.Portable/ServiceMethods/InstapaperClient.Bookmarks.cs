@@ -1,10 +1,9 @@
-﻿using System.Linq;
-using System.Threading;
-using AsyncOAuth;
+﻿using AsyncOAuth;
 using Insta.Portable.Models;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Insta.Portable

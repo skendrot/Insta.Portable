@@ -1,7 +1,7 @@
-﻿using System.Threading;
-using Insta.Portable.Models;
+﻿using Insta.Portable.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Insta.Portable

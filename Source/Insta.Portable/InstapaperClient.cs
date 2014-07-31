@@ -1,5 +1,4 @@
 ﻿using AsyncOAuth;
-using Insta.Portable.Extensions;
 using Insta.Portable.Models;
 using Newtonsoft.Json;
 using PCLCrypto;
