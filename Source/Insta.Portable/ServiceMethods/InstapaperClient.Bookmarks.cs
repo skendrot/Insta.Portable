@@ -94,7 +94,7 @@ namespace Insta.Portable
             return await ProcessResponse<Bookmark>(json);
         }
 
-        public async Task<InstaResponse<Bookmark>> UpdateReadProgressAsync(int bookmarkId, float readPercentage, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<InstaResponse<Bookmark>> UpdateReadProgressAsync(int bookmarkId, float readPercentage, CancellationToken cancellationToken = default(CancellationToken))
         {
             const string url = BookmarksBaseUrl + "/update_read_progress";
 
@@ -106,7 +106,7 @@ namespace Insta.Portable
                 {"progress_timestamp", timestamp.ToString()}
             };
 
-            return await GetBookmarkAsync(url, bookmarkId, parameters, cancellationToken);
+            return GetBookmarkAsync(url, bookmarkId, parameters, cancellationToken);
         }
 
         public async Task<bool> DeleteBookmarkAsync(int bookmarkId, CancellationToken cancellationToken = default(CancellationToken))
@@ -121,32 +121,32 @@ namespace Insta.Portable
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<InstaResponse<Bookmark>> StarBookmarkAsync(int bookmarkId, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<InstaResponse<Bookmark>> StarBookmarkAsync(int bookmarkId, CancellationToken cancellationToken = default(CancellationToken))
         {
             const string url = BookmarksBaseUrl + "/star";
 
-            return await GetBookmarkAsync(url, bookmarkId, cancellationToken: cancellationToken);
+            return GetBookmarkAsync(url, bookmarkId, cancellationToken: cancellationToken);
         }
 
-        public async Task<InstaResponse<Bookmark>> UnstarBookmarkAsync(int bookmarkId, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<InstaResponse<Bookmark>> UnstarBookmarkAsync(int bookmarkId, CancellationToken cancellationToken = default(CancellationToken))
         {
             const string url = BookmarksBaseUrl + "/unstar";
 
-            return await GetBookmarkAsync(url, bookmarkId, cancellationToken: cancellationToken);
+            return GetBookmarkAsync(url, bookmarkId, cancellationToken: cancellationToken);
         }
 
-        public async Task<InstaResponse<Bookmark>> ArchiveBookmarkAsync(int bookmarkId, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<InstaResponse<Bookmark>> ArchiveBookmarkAsync(int bookmarkId, CancellationToken cancellationToken = default(CancellationToken))
         {
             const string url = BookmarksBaseUrl + "/archive";
 
-            return await GetBookmarkAsync(url, bookmarkId, cancellationToken: cancellationToken);
+            return GetBookmarkAsync(url, bookmarkId, cancellationToken: cancellationToken);
         }
 
-        public async Task<InstaResponse<Bookmark>> UnarchiveBookmarkAsync(int bookmarkId, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<InstaResponse<Bookmark>> UnarchiveBookmarkAsync(int bookmarkId, CancellationToken cancellationToken = default(CancellationToken))
         {
             const string url = BookmarksBaseUrl + "/unarchive";
 
-            return await GetBookmarkAsync(url, bookmarkId, cancellationToken: cancellationToken);
+            return GetBookmarkAsync(url, bookmarkId, cancellationToken: cancellationToken);
         }
 
         private async Task<InstaResponse<Bookmark>> GetBookmarkAsync(string url, int bookmarkId, IDictionary<string, string> additionalParameters = null, CancellationToken cancellationToken = default(CancellationToken))
