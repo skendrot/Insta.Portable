@@ -85,16 +85,16 @@ namespace Insta.Portable
         {
             const string url = BaseUrl + "/1.1/account/verify_credentials";
 
-            var response = await GetResponse(url, new List<KeyValuePair<string, string>>(), cancellationToken);
+            var response = await GetResponse(url, new List<KeyValuePair<string, string>>(), cancellationToken).ConfigureAwait(false);
 
             var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            var result = await ProcessResponse<List<User>>(json);
+            var result = ProcessResponse<List<User>>(json);
             return result.Error == null
                 ? new InstaResponse<User> { Response = result.Response.FirstOrDefault() }
                 : new InstaResponse<User> { Error = result.Error };
         }
 
-        private static async Task<InstaResponse<TReturnType>> ProcessResponse<TReturnType>(string json) where TReturnType : class
+        private static InstaResponse<TReturnType> ProcessResponse<TReturnType>(string json) where TReturnType : class
         {
             if (string.IsNullOrEmpty(json))
             {

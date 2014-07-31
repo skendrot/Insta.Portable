@@ -55,7 +55,7 @@ namespace Insta.Portable
             var response = await GetResponse(url, parameters, cancellationToken).ConfigureAwait(false);
 
             var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            return await ProcessResponse<BookmarksResponse>(json);
+            return ProcessResponse<BookmarksResponse>(json);
         }
 
         public async Task<string> GetBookmarkContentAsync(int bookmarkId, CancellationToken cancellationToken = default(CancellationToken))
@@ -91,7 +91,7 @@ namespace Insta.Portable
             }
             var response = await GetResponse(url, parameters, cancellationToken).ConfigureAwait(false);
             var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            return await ProcessResponse<Bookmark>(json);
+            return ProcessResponse<Bookmark>(json);
         }
 
         public Task<InstaResponse<Bookmark>> UpdateReadProgressAsync(int bookmarkId, float readPercentage, CancellationToken cancellationToken = default(CancellationToken))
@@ -165,7 +165,7 @@ namespace Insta.Portable
 
             var response = await GetResponse(url, parameters, cancellationToken).ConfigureAwait(false);
             var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            return await ProcessResponse<Bookmark>(json);
+            return ProcessResponse<Bookmark>(json);
         }
 
         private Task<HttpResponseMessage> GetResponse(string url, IEnumerable<KeyValuePair<string, string>> parameters, CancellationToken cancellationToken = default(CancellationToken))
