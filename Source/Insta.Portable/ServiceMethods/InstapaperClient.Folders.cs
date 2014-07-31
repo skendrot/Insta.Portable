@@ -1,5 +1,5 @@
-﻿using Insta.Portable.Models;
-using Newtonsoft.Json;
+﻿using System.Threading;
+using Insta.Portable.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,18 +10,17 @@ namespace Insta.Portable
     {
         private const string FoldersUrl = BaseUrl + "/1.1/folders";
 
-        public async Task<IEnumerable<Folder>> GetFolders()
+        public async Task<InstaResponse<IEnumerable<Folder>>> GetFoldersAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             const string url = FoldersUrl + "/list";
 
-            var response = await GetResponse(url, null).ConfigureAwait(false);
-            if (response.IsSuccessStatusCode == false) return new Folder[0];
-
+            var response = await GetResponse(url, null, cancellationToken).ConfigureAwait(false);
+            
             var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            return JsonConvert.DeserializeObject<IEnumerable<Folder>>(json);
+            return await ProcessResponse<IEnumerable<Folder>>(json);
         }
 
-        public async Task<Folder> AddFolder(string title)
+        public async Task<InstaResponse<Folder>> AddFolderAsync(string title, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (title == null) throw new ArgumentNullException("title");
 
@@ -32,14 +31,13 @@ namespace Insta.Portable
                 {"title", title}
             };
 
-            var response = await GetResponse(url, parameters).ConfigureAwait(false);
-            if (response.IsSuccessStatusCode == false) return null;
-
+            var response = await GetResponse(url, parameters, cancellationToken).ConfigureAwait(false);
+            
             var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            return JsonConvert.DeserializeObject<Folder>(json);
+            return await ProcessResponse<Folder>(json);
         }
 
-        public async Task<bool> DeleteFolder(string folderId)
+        public async Task<bool> DeleteFolderAsync(string folderId, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (folderId == null) throw new ArgumentNullException("folderId");
 
@@ -50,7 +48,7 @@ namespace Insta.Portable
                 {"folder_id", folderId}
             };
 
-            var response = await GetResponse(url, parameters).ConfigureAwait(false);
+            var response = await GetResponse(url, parameters, cancellationToken).ConfigureAwait(false);
             return response.IsSuccessStatusCode;
         }
     }

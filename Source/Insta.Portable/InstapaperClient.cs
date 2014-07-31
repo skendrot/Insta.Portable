@@ -1,4 +1,7 @@
 ﻿using AsyncOAuth;
+using Insta.Portable.Extensions;
+using Insta.Portable.Models;
+using Newtonsoft.Json;
 using PCLCrypto;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,11 +41,16 @@ namespace Insta.Portable
         {
             _consumerKey = consumerKey;
             _consumerSecret = consumerSecret;
+
+            if (!string.IsNullOrEmpty(oauthToken) && !string.IsNullOrEmpty(oauthSecret))
+            {
+                AccessToken = new AccessToken(oauthToken, oauthSecret);
+            }
         }
 
         public AccessToken AccessToken { get; set; }
 
-        public async Task<AccessToken> GetAuthTokenAsync(string userName, string password, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<AccessToken> GetAuthTokenAsync(string emailAddress, string password, CancellationToken cancellationToken = default(CancellationToken))
         {
             //
             // Acquire an access token
@@ -52,7 +60,7 @@ namespace Insta.Portable
 
             var parameters = new Dictionary<string, string>
             {
-                { "x_auth_username", userName },
+                { "x_auth_username", emailAddress },
                 {"x_auth_password", password},
                 {"x_auth_mode","client_auth"}
             };
@@ -71,6 +79,36 @@ namespace Insta.Portable
             var splitted = tokenBase.Split('&').Select(s => s.Split('=')).ToLookup(xs => xs[0], xs => xs[1]);
             AccessToken = new AccessToken(splitted["oauth_token"].First(), splitted["oauth_token_secret"].First());
             return AccessToken;
+        }
+
+        public async Task<InstaResponse<User>> VerifyUserAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            const string url = BaseUrl + "/1.1/account/verify_credentials";
+
+            var response = await GetResponse(url, new List<KeyValuePair<string, string>>(), cancellationToken);
+
+            var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var result = await ProcessResponse<List<User>>(json);
+            return result.Error == null
+                ? new InstaResponse<User> { Response = result.Response.FirstOrDefault() }
+                : new InstaResponse<User> { Error = result.Error };
+        }
+
+        private static async Task<InstaResponse<TReturnType>> ProcessResponse<TReturnType>(string json) where TReturnType : class
+        {
+            if (string.IsNullOrEmpty(json))
+            {
+                return new InstaResponse<TReturnType> { Error = new Error { ErrorCode = 0000, Message = "API response contained no information", Type = "error" } };
+            }
+
+            if (json.Contains("error_code"))
+            {
+                var error = JsonConvert.DeserializeObject<List<Error>>(json);
+                return new InstaResponse<TReturnType> { Error = error.FirstOrDefault() };
+            }
+
+            var response = JsonConvert.DeserializeObject<TReturnType>(json);
+            return new InstaResponse<TReturnType> { Response = response };
         }
     }
 }
