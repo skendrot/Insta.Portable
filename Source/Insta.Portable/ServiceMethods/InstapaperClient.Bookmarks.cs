@@ -36,20 +36,20 @@ namespace Insta.Portable
 
             if (alreadyHave != null)
             {
-                var enumerable = alreadyHave as int[] ?? alreadyHave.ToArray();
-                if (enumerable != null && enumerable.Any())
+                string have = string.Join(",", alreadyHave);
+                if (string.IsNullOrEmpty(have) == false)
                 {
-                    parameters.Add("have", string.Join(",", enumerable));
+                    parameters.Add("have", have);
                 }
             }
 
             if (highlights != null)
             {
-                var values = highlights as int[] ?? highlights.ToArray();
-                if (values != null && values.Any())
+                string highlightsStr = string.Join("-", highlights);
+                if (string.IsNullOrEmpty(highlightsStr) == false)
                 {
-                    parameters.Add("highlights", string.Join("-", values));
-                }
+                    parameters.Add("highlights", highlightsStr);
+                } 
             }
 
             var response = await GetResponse(url, parameters, cancellationToken).ConfigureAwait(false);
