@@ -16,7 +16,6 @@ namespace Insta.Portable
         private readonly string _consumerSecret;
         private const string BaseUrl = "https://www.instapaper.com/api";
         private const string AuthUrl = BaseUrl + "/1.1/oauth";
-        private const string ProfileUrl = BaseUrl + "users/_current";
 
         private InstapaperClient()
         {
