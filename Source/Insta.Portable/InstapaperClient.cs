@@ -67,13 +67,9 @@ namespace Insta.Portable
             var client = new HttpClient(handler);
 
             var response = await client.PostAsync(authUrl, new FormUrlEncodedContent(parameters), cancellationToken).ConfigureAwait(false);
+            if (response.IsSuccessStatusCode == false) return null;
+
             var tokenBase = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
-            {
-                throw new HttpRequestException(response.StatusCode + ":" + tokenBase); // error message
-            }
-
             var splitted = tokenBase.Split('&').Select(s => s.Split('=')).ToLookup(xs => xs[0], xs => xs[1]);
             AccessToken = new AccessToken(splitted["oauth_token"].First(), splitted["oauth_token_secret"].First());
             return AccessToken;
