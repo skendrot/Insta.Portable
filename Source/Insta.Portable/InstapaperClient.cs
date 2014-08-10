@@ -48,6 +48,13 @@ namespace Insta.Portable
 
         public AccessToken AccessToken { get; set; }
 
+        /// <summary>
+        /// Get an AccessToken for the user with the given email and password.
+        /// </summary>
+        /// <param name="emailAddress">The email address for the user.</param>
+        /// <param name="password">The password for the user.</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>The AccessToken if the user is authenticated. Null if the user is not authenticated.</returns>
         public async Task<AccessToken> GetAuthTokenAsync(string emailAddress, string password, CancellationToken cancellationToken = default(CancellationToken))
         {
             //
